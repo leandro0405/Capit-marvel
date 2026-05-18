@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Efeito Hover Capitã Marvel</title>
+    <title>Efeito Hover Capitã Marvel - Ajustado</title>
     <style>
         body {
             margin: 0;
@@ -12,7 +12,7 @@
             align-items: center;
             height: 100vh;
             background-color: #fff; /* Fundo branco da página */
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden; /* Evita barras de rolagem */
         }
 
@@ -22,60 +22,68 @@
             background: linear-gradient(45deg, #d41e31, #491f8f);
             position: relative;
             border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
-            overflow: visible; /* IMPORTANTE: Permite que a cabeça saia */
+            overflow: visible; /* Permite que a cabeça saia */
+            cursor: pointer;
         }
 
-        /* Caixa que segura a imagem */
         .image-box {
             position: absolute;
-            bottom: 0; /* Ancorada ao fundo para as pernas ficarem fixas */
-            left: 50%;
+            bottom: 0; /* Alinha a base da imagem com o fundo */
+            left: 50%; /* Centraliza horizontalmente no estado pré-hover */
             transform: translateX(-50%);
             width: auto;
-            /* TAMANHO INICIAL: Já sai um pouco em cima */
-            height: 120%; 
-            
-            /* ANIMAÇÃO: Combina movimento e crescimento */
-            transition: left 0.5s ease-out, height 0.5s ease-out;
+            height: 130%; /* Faz a imagem total ser maior que o contêiner, cabeça sai */
+            transition: left 0.5s ease-out; /* Animação para mover para o lado */
             z-index: 10;
         }
 
-        /* A imagem real de ativo com fundo transparente */
         .image-box img {
-            height: 100%; /* Ocupa 100% da altura da caixa */
+            height: 100%;
             display: block;
+            object-fit: contain; /* Garante que a imagem não distorça */
         }
 
         .text-box {
-            width: 50%;
-            padding: 20px;
+            width: 50%; /* Ocupa a metade esquerda */
+            padding: 30px;
             color: #fff;
             opacity: 0; /* Escondido inicialmente */
-            transform: translateX(-20px);
+            transform: translateY(-50%) translateX(-20px);
             transition: all 0.5s ease;
             position: absolute;
             left: 0;
             top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none; /* Não atrapalha o hover na imagem */
+            pointer-events: none; /* Impede que o texto atrapalhe o hover no contêiner */
         }
 
-        /* --- Efeito Hover Combinado --- */
+        .text-box h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .text-box p {
+            font-size: 1rem;
+            line-height: 1.4;
+            margin-bottom: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* --- EFEITO HOVER --- */
+        
         .container:hover .image-box {
-            /* 1. Movimento para a direita */
-            left: 75%; 
-            /* 2. Crescimento vertical controlado.
-               A base (bottom: 0) fica, o topo sobe. */
-            height: 140%; 
+            left: 75%; /* Move a imagem para o lado direito no hover */
         }
 
         .container:hover .text-box {
-            opacity: 1; /* Mostra o texto */
+            opacity: 1; /* Mostra o texto no hover */
             transform: translateY(-50%) translateX(0); /* Ajusta a posição */
-            pointer-events: auto; /* Permite interação se necessário */
         }
     </style>
 </head>
@@ -83,25 +91,25 @@
 
     <div class="container">
         <div class="text-box">
-            <h2>Poderes Cósmicos</h2>
-            <p id="random-text">Passando o mouse para ver os poderes dela!</p>
+            <h2>Capitã Marvel</h2>
+            <p id="random-text">Passe o mouse para um fato cósmico!</p>
         </div>
 
         <div class="image-box">
-            <img src="Captura_de_tela_2026-05-18_08-32-31-removebg-preview.png" alt="Capitã Marvel">
+            <img src="capita-marvel-full.png" alt="Capitã Marvel (Corpo Inteiro)">
         </div>
     </div>
 
     <script>
-        // Array de frases aleatórias
-        const frases = [
-            "Ela possui força sobre-humana!",
-            "Consegue voar a velocidades estelares.",
-            "Absorve e projeta energia cósmica.",
-            "Tem resistência e durabilidade incriveis.",
-            "Liderou os Vingadores em batalha.",
-            "Pode sobreviver no vácuo do espaço.",
-            "Possui um 'sétimo sentido' de perigo."
+        // Array de frases aleatórias sobre os poderes e curiosidades
+        const frasesConst = [
+            "Ela possui força sobre-humana e a capacidade de voar a velocidades estelares.",
+            "Absorve e projeta energia cósmica, um de seus principais poderes.",
+            "Já liderou os Vingadores em batalha, demonstrando suas habilidades de liderança.",
+            "Consegue sobreviver no vácuo do espaço sem ajuda de trajes.",
+            "Tem resistência e durabilidade incríveis, quase invulnerável.",
+            "Seu gato de estimação, Goose, é na verdade um perigoso Flerken!",
+            "Ela foi fundida com DNA Kree, tornando-a um híbrido humano-Kree."
         ];
 
         const container = document.querySelector('.container');
@@ -109,8 +117,8 @@
 
         // Mudar o texto toda vez que o mouse passar por cima
         container.addEventListener('mouseenter', () => {
-            const randomIndex = Math.floor(Math.random() * frases.length);
-            textElement.textContent = frases[randomIndex];
+            const randomIndex = Math.floor(Math.random() * frasesConst.length);
+            textElement.textContent = frasesConst[randomIndex];
         });
     </script>
 </body>
