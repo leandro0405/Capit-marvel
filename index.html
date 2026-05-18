@@ -5,71 +5,136 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Efeito Capitã Marvel</title>
     <style>
-        /* Configuração do fundo solicitado */
+        /* Configuração do fundo da página (Branco) */
         body {
             margin: 0;
             padding: 0;
+            height: 100vh;
+            background-color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(45deg, #d41e31, #491f8f);
-            overflow: hidden;
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Container da imagem */
-        .image-container {
+        /* O Retângulo Central com o Gradiente solicitado */
+        .card-container {
             position: relative;
-            cursor: pointer;
-            transition: transform 0.5s ease;
+            width: 650px;
+            height: 400px;
+            background: linear-gradient(45deg, #d41e31, #491f8f);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
         }
 
-        /* Estilização da imagem */
-        .marvel-img {
-            max-width: 400px;
-            height: auto;
-            display: block;
-            /* Suaviza a transição dos filtros */
-            transition: all 0.4s ease-in-out;
-            /* Remove fundos estranhos se a imagem for transparente */
-            background: transparent; 
-        }
-
-        /* --- O EFEITO HOVER (Passar o mouse) --- */
-        
-        /* 1. Faz a imagem crescer levemente e adiciona um brilho dourado intenso (drop-shadow) */
-        .image-container:hover .marvel-img {
-            transform: scale(1.05);
-            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8)) brightness(1.2);
-        }
-
-        /* 2. Cria um efeito de pulsação/aura no fundo da imagem */
-        .image-container::before {
-            content: '';
+        /* Container da Imagem (ocupa metade do card inicialmente) */
+        .image-box {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 80%;
-            height: 80%;
-            background: radial-gradient(circle, rgba(255,191,0,0.4) 0%, rgba(0,0,0,0) 70%);
-            transform: translate(-50%, -50%) scale(0);
-            transition: transform 0.5s ease, opacity 0.5s ease;
-            z-index: -1;
-            opacity: 0;
+            left: 0;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 2;
+            pointer-events: none; /* Mantém a suavidade do hover no container */
         }
 
-        .image-container:hover::before {
-            transform: translate(-50%, -50%) scale(1.5);
+        .image-box img {
+            height: 95%;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+        }
+
+        /* Container do Texto (fica do lado esquerdo, escondido inicialmente) */
+        .text-box {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
+            color: #ffffff;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .text-box h2 {
+            margin: 0 0 15px 0;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+        }
+
+        .text-box p {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin: 0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+        }
+
+        /* --- EFEITO HOVER (Quando passa o mouse no Retângulo) --- */
+        
+        /* Move a imagem para o outro lado (direita) */
+        .card-container:hover .image-box {
+            transform: translateX(100%);
+        }
+
+        /* Mostra o texto do lado esquerdo */
+        .card-container:hover .text-box {
             opacity: 1;
+            transform: translateX(0);
         }
     </style>
 </head>
 <body>
 
-    <div class="image-container">
-        <img src="1000090704.jpg" alt="Capitã Marvel" class="marvel-img">
+    <div class="card-container">
+        <div class="text-box">
+            <h2>Capitã Marvel</h2>
+            <p id="random-text">Passe o mouse para descobrir um fato cósmico!</p>
+        </div>
+
+        <div class="image-box">
+            <img src="capita-marvel.png" alt="Capitã Marvel">
+        </div>
     </div>
+
+    <script>
+        // Lista de textos aleatórios sobre a personagem
+        const fatosConst = [
+            "Carol Danvers era uma das pilotos mais brilhantes da Força Aérea Americana antes de obter seus poderes cósmicos.",
+            "Ela possui força sobre-humana, capacidade de voar em velocidades supersônicas e pode absorver e projetar energia.",
+            "Seu DNA foi fundido com a tecnologia Kree, transformando-a em um híbrido humano-Kree extremamente poderoso.",
+            "Seu gato de estimação, Goose, parece fofo, mas na verdade é um Flerken, uma espécie alienígena perigosíssima!",
+            "Ela já utilizou outros codinomes marcantes nos quadrinhos, como Binária e Warbird.",
+            "É frequentemente descrita como uma das linhas de frente de defesa mais poderosas de todo o universo Marvel."
+        ];
+
+        const card = document.querySelector('.card-container');
+        const textElement = document.getElementById('random-text');
+
+        // Evento que detecta quando o mouse entra no retângulo
+        card.addEventListener('mouseenter', () => {
+            // Sorteia um índice da nossa lista de textos
+            const randomIndex = Math.floor(Math.random() * fatosConst.length);
+            // Atualiza o parágrafo com o texto sorteado
+            textElement.textContent = fatosConst[randomIndex];
+        });
+    </script>
 
 </body>
 </html>
