@@ -30,11 +30,11 @@
 
         .image-box {
             position: absolute;
-            bottom: 0; /* Pernas coladas no fim do canto de baixo */
-            left: 50%; /* Centralizada antes do hover */
+            bottom: 0;
+            left: 50%;
             transform: translateX(-50%);
             width: auto;
-            height: 125%; /* Faz a cabeça passar do topo do retângulo */
+            height: 120%; /* Faz a imagem ser maior que o retângulo */
             transition: left 0.5s ease; /* Animação para mover para o lado */
             z-index: 10;
         }
@@ -45,9 +45,8 @@
         }
 
         .text-box {
-            width: 42%; /* Limita o espaço para o texto não bater na imagem */
+            width: 50%;
             padding: 20px;
-            box-sizing: border-box; /* Garante que o padding não aumente o tamanho real da caixa */
             color: #fff;
             opacity: 0; /* Escondido inicialmente */
             transform: translateX(-20px);
@@ -58,10 +57,8 @@
             transform: translateY(-50%);
         }
 
-        /* --- EFEITO HOVER --- */
-
         .container:hover .image-box {
-            left: 80%; /* Move a imagem mais para a direita para dar total espaço ao texto */
+            left: 75%; /* Move a imagem para o lado direito no hover */
         }
 
         .container:hover .text-box {
@@ -89,7 +86,7 @@
             "Ela possui força sobre-humana!",
             "Consegue voar a velocidades estelares.",
             "Absorve e projeta energia cósmica.",
-            "Tem resistência e durabilidade incríveis.",
+            "Tem resistência e durabilidade incriveis.",
             "Liderou os Vingadores em batalha.",
             "Pode sobreviver no vácuo do espaço.",
             "Possui um 'sétimo sentido' de perigo."
